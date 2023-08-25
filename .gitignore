@@ -1,5 +1,7 @@
 venv/
-pycache/
+__pycache__/
 .env
 .vscode
 app.db
+app/__pycache__/
+.ipynb_checkpoints/

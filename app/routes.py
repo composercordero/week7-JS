@@ -4,12 +4,8 @@ from app.forms import SignUpForm, LoginForm
 from app.models import User, Visited, Wish_List
 from flask_login import login_user, logout_user, login_required, current_user
 
-@app.route('/')
+@app.route('/', methods = ['GET', 'POST'])
 def index():
-    return render_template('index.html')
-
-@app.route('/login', methods = ['GET', 'POST'])
-def login():
     form = LoginForm()
     if form.validate_on_submit():
         username = form.username.data
@@ -25,23 +21,15 @@ def login():
         flash("Your passwords did not match", "danger")
         return redirect(url_for('login'))
     
-    return render_template('login.html', form = form)
+    # Sign Up
 
-@app.route('/logout', methods = ['GET', 'POST'])
-def logout():
-    logout_user()
-    flash("You have successfully logged out", "success")
-    return redirect(url_for('index'))
-
-@app.route('/signup', methods=["GET", "POST"])
-def signup():
-    form = SignUpForm()
-    if form.validate_on_submit():
-        first_name = form.first_name.data
-        last_name = form.last_name.data
-        username = form.username.data
-        email = form.email.data
-        password = form.password.data
+    form2 = SignUpForm()
+    if form2.validate_on_submit():
+        first_name = form2.first_name.data
+        last_name = form2.last_name.data
+        username = form2.username.data
+        email = form2.email.data
+        password = form2.password.data
         
         check_user = db.session.execute(db.select(User).where( (User.username==username) | (User.email==email) )).scalar()
         if check_user:
@@ -58,4 +46,10 @@ def signup():
   
         return redirect(url_for('index'))
     
-    return render_template('signup.html', form=form)
+    return render_template('index.html', form = form, form2 = form2)
+
+@app.route('/logout', methods = ['GET', 'POST'])
+def logout():
+    logout_user()
+    flash("You have successfully logged out", "success")
+    return redirect(url_for('index'))

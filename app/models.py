@@ -57,7 +57,7 @@ class User(db.Model, UserMixin):
 class Visited(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String, nullable = False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user_id'), nullable = False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -73,7 +73,10 @@ class Visited(db.Model):
             'created by': self.author.to_dict(),
         }
     
-class Wish_List(db.Model, UserMixin, Visited):
-    
+class Wish_List(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String, nullable = False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
