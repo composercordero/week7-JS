@@ -1,6 +1,6 @@
 from app import app, db
 from flask import render_template, redirect, url_for, flash, request
-from app.forms import SignUpForm, LoginForm
+from app.forms import SignUpForm, LoginForm, Country
 from app.models import User, Visited, Wish_List
 from flask_login import login_user, logout_user, login_required, current_user
 
@@ -44,7 +44,7 @@ def index():
 
         login_user(new_user)
   
-        return redirect(url_for('index'))
+        return redirect(url_for('visited'))
     
     return render_template('index.html', form = form, form2 = form2)
 
@@ -53,3 +53,25 @@ def logout():
     logout_user()
     flash("You have successfully logged out", "success")
     return redirect(url_for('index'))
+
+@app.route('/visited', methods = ['GET', 'POST'])
+def visited():
+    form = Country()
+
+    if form.validate_on_submit():
+        name = form.name.data
+        
+        check_name = db.session.execute(db.select(Visited).where( (Visited.name==name))).scalar()
+        if check_name:
+            flash(f'{name} is already in your list', 'danger')
+            return redirect(url_for('visited'))
+        
+        new_country = Visited(name = name, user_id = current_user.id)
+
+        db.session.add(new_country)
+        db.session.commit()
+        flash(f'You added {new_country.name} to your list!', 'success')
+  
+        return redirect(url_for('visited'))
+
+    return render_template('visited.html', form = form)

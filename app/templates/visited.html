@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Horizontal card to show the countries -->
+<div class="row mb-5">
+  <div class="card p-5">
+    <form action="" method="post" id="country_query">
+      {{ form.csrf_token }}
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">{{ form.name.label }}</label>
+        {{ form.name(class='form-control', placeholder='Enter country') }}
+      </div>
+      <button class="btn btn-success mt-3" id="search_button" value="search">Search Country</button>
+      <button class="btn btn-warning mt-3" id="submit_form_button" value="add">Add to your list</button> 
+    </form>
+</div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+  <div class="table_card card p-5">
+      <table class="table table-light table-responsive align-middle" id="search_country"></table>
+</div>
+</div>
+</div>
+
+  {% endblock content %}

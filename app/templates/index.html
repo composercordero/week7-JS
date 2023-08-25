@@ -61,10 +61,25 @@
    
   </div>
   
-
   </div>
 
 {% endif %}
+
+
+ 
+{% if current_user.is_authenticated %}
+<div class="col-12"></div>
+  <div class="row align-items-center" style="min-height: 100vh">
+    <div class="col-1"></div>
+    <div class="col-12 col-lg-4">
+        <h1 class="title fw-bold name font">The moment is now</h1>
+        <p class="fs-5 fw-semibold text-body-tertiary my-4">Add countries to your wish list.</p>
+    </div>
+</div>
+
+
+{% endif %}
+
 
 </div>
 

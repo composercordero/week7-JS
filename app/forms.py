@@ -17,5 +17,5 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Login')
 
 class Country(FlaskForm):
-    name = StringField('First Name', validators = [InputRequired()])
+    name = StringField('Country', validators = [InputRequired()])
     submit = SubmitField('Search Country')
